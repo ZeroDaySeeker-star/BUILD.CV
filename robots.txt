@@ -1,0 +1,18 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /config/
+Disallow: /classes/
+Disallow: /includes/
+Disallow: /dashboard/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /database/
+Disallow: /assets/css/
+Disallow: /assets/js/
+Disallow: /assets/img/
+
+Allow: /portfolios/
+Allow: /cvs/
+
+Sitemap: https://votredomaine.com/sitemap.xml

@@ -1,0 +1,544 @@
+/* ===================================
+   BUILD.CV – CV Builder Page CSS
+=================================== */
+
+/* Builder Layout */
+.builder-layout {
+    display: grid;
+    grid-template-columns: 480px 1fr;
+    gap: 0;
+    height: calc(100vh - var(--topbar-h));
+    overflow: hidden;
+}
+
+.builder-form-panel {
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+}
+
+/* Section Tabs */
+.section-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    padding: 0 0.5rem;
+    background: var(--surface);
+    flex-shrink: 0;
+}
+
+.section-tabs::-webkit-scrollbar {
+    height: 3px;
+}
+
+.section-tabs::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 3px;
+}
+
+.section-tab {
+    padding: 0.75rem 0.9rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-family: var(--font);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.section-tab:hover {
+    color: var(--text);
+}
+
+.section-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+/* Section Panels */
+.section-panel {
+    display: none;
+    padding: 1.5rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.section-panel.active {
+    display: block;
+}
+
+.section-header {
+    margin-bottom: 1.5rem;
+}
+
+.section-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.section-header p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+}
+
+/* Form groups */
+.cv-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.fgroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.fgroup label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+.fgroup input,
+.fgroup textarea,
+.fgroup select {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.85rem;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.fgroup input:focus,
+.fgroup textarea:focus,
+.fgroup select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.fgroup input::placeholder,
+.fgroup textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.fgroup textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+}
+
+.form-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.85rem;
+}
+
+.ai-field {
+    position: relative;
+}
+
+.ai-field textarea {
+    padding-bottom: 3.5rem;
+    /* Increased to fit two buttons */
+}
+
+.ai-btns {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    flex-direction: row !important;
+    /* Force horizontal */
+    gap: 0.5rem;
+    flex-wrap: nowrap !important;
+    justify-content: flex-end;
+    z-index: 20;
+    /* Above everything */
+}
+
+.ai-btn {
+    background: linear-gradient(135deg, var(--primary), var(--purple));
+    color: white !important;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap !important;
+    flex-shrink: 0;
+}
+
+/* Removed direct child rule to prevent conflicts */
+.ai-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.fgroup textarea.ai-field-textarea {
+    padding-bottom: 2.5rem;
+}
+
+/* Photo Upload */
+.photo-upload-area {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem;
+    background: var(--surface-2);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0.5rem;
+}
+
+.photo-preview {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--surface-3);
+    border: 2px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.photo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+.photo-placeholder span {
+    font-size: 1.5rem;
+}
+
+.photo-upload-info strong {
+    font-size: 0.88rem;
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.photo-upload-info p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+/* Repeatable Items */
+.repeatable-item {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem;
+    margin-bottom: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: border-color 0.2s;
+}
+
+.repeatable-item:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.repeatable-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.repeatable-header strong {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Skills */
+.skill-item {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.skill-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.skill-name-input {
+    flex: 1;
+    min-width: 0;
+    background: var(--surface-3) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px !important;
+    padding: 0.45rem 0.75rem !important;
+    font-size: 0.85rem !important;
+}
+
+.skill-level-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.skill-slider {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--surface-3);
+    border: none !important;
+    padding: 0 !important;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.skill-level-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text);
+    width: 36px;
+    text-align: right;
+}
+
+/* Languages */
+.language-item {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.lang-select {
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.82rem;
+}
+
+/* ── Live Preview Panel ─────────────── */
+.builder-preview-panel {
+    display: flex;
+    flex-direction: column;
+    background: #e8e8e8;
+    overflow: hidden;
+}
+
+.preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.preview-frame-wrap {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.preview-frame {
+    width: 130%;
+    height: 130%;
+    transform: scale(0.77);
+    transform-origin: top left;
+    border: none;
+    background: white;
+}
+
+/* Autosave badge */
+.autosave-badge {
+    font-size: 0.78rem;
+    color: var(--success);
+    font-weight: 500;
+    padding: 0.3rem 0.6rem;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 20px;
+}
+
+/* ── AI Modal ───────────────────────── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    display: block !important;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 540px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+    animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.modal-close:hover {
+    background: var(--surface-2);
+    color: var(--text);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.ai-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.ai-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.ai-loading p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.ai-result-box {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text);
+    max-height: 200px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .builder-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: visible;
+    }
+
+    .builder-preview-panel {
+        display: none;
+    }
+
+    .builder-form-panel {
+        overflow-y: visible;
+    }
+
+    .form-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid-3 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
