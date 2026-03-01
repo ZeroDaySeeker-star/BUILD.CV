@@ -189,6 +189,13 @@ footer a { color: var(--primary); text-decoration: none; }
             </div>
             <?php endif; ?>
         </div>
+        
+        <?php if (!empty($profile['hobbies'])): ?>
+        <div class="about-card" style="margin-top:1.5rem;">
+            <div style="font-family:var(--mono); color:var(--green); margin-bottom:0.5rem;">// hobbies_interests.terminal</div>
+            <div class="exp-desc"><?= $profile['hobbies'] ?></div>
+        </div>
+        <?php endif; ?>
     </div>
 </section>
 
@@ -270,6 +277,8 @@ footer a { color: var(--primary); text-decoration: none; }
             <?php if ($email):    ?><a href="mailto:<?= $email ?>" class="contact-card"><span class="contact-card-icon">✉</span><div class="contact-card-label">E-mail</div><div class="contact-card-value"><?= $email ?></div></a><?php endif; ?>
             <?php if ($github):   ?><a href="<?= $github ?>" class="contact-card" target="_blank"><span class="contact-card-icon">⌘</span><div class="contact-card-label">GitHub</div><div class="contact-card-value">Voir le profil</div></a><?php endif; ?>
             <?php if ($linkedin): ?><a href="<?= $linkedin ?>" class="contact-card" target="_blank"><span class="contact-card-icon">in</span><div class="contact-card-label">LinkedIn</div><div class="contact-card-value">Se connecter</div></a><?php endif; ?>
+            <?php if (!empty($profile['instagram'])): ?><a href="<?= htmlspecialchars($profile['instagram']) ?>" class="contact-card" target="_blank"><span class="contact-card-icon">📸</span><div class="contact-card-label">Instagram</div><div class="contact-card-value">Suivre</div></a><?php endif; ?>
+            <?php if (!empty($profile['twitter'])): ?><a href="<?= htmlspecialchars($profile['twitter']) ?>" class="contact-card" target="_blank"><span class="contact-card-icon">𝕏</span><div class="contact-card-label">Twitter</div><div class="contact-card-value">Profil X</div></a><?php endif; ?>
             <?php if ($phone):    ?><a href="tel:<?= $phone ?>" class="contact-card"><span class="contact-card-icon">📞</span><div class="contact-card-label">Téléphone</div><div class="contact-card-value"><?= $phone ?></div></a><?php endif; ?>
         </div>
     </div>

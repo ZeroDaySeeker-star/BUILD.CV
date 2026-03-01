@@ -118,6 +118,7 @@ if (!file_exists($templateFile)) {
 }
 
 $profile['summary'] = parse_markdown_to_html($profile['summary'] ?? '');
+$profile['hobbies'] = parse_markdown_to_html($profile['hobbies'] ?? '');
 foreach ($experience as &$exp) {
     if (!empty($exp['description'])) {
         $exp['description'] = parse_markdown_to_html($exp['description']);
@@ -140,5 +141,15 @@ unset($proj);
 ob_start();
 include $templateFile;
 $html = ob_get_clean();
+
+// Dynamic SEO injection: Add meta tags to <head> if it exists
+$metaTags = '';
+ob_start();
+include __DIR__ . '/../includes/portfolio-meta.php';
+$metaTags = ob_get_clean();
+
+if (strpos($html, '</head>') !== false) {
+    $html = str_replace('</head>', $metaTags . "\n</head>", $html);
+}
 
 echo $html;

@@ -19,6 +19,7 @@ $projects       = db()->fetchAll('SELECT * FROM projects WHERE user_id = ? ORDER
 $languages      = db()->fetchAll('SELECT * FROM languages WHERE user_id = ? ORDER BY sort_order', [$userId]);
 $certifications = db()->fetchAll('SELECT * FROM certifications WHERE user_id = ? ORDER BY sort_order', [$userId]);
 $profile['summary'] = parse_markdown_to_html($profile['summary'] ?? '');
+$profile['hobbies'] = parse_markdown_to_html($profile['hobbies'] ?? '');
 foreach ($experience as &$exp) {
     if (!empty($exp['description'])) {
         $exp['description'] = parse_markdown_to_html($exp['description']);

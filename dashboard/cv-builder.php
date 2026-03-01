@@ -118,13 +118,19 @@ window.fetch = async function(resource, config) {
 
                         <div class="fgroup ai-field">
                             <label>Résumé professionnel</label>
-                            <textarea name="summary" rows="4" placeholder="Rédigez un court résumé sur vous..."><?= htmlspecialchars($profile['summary'] ?? '') ?></textarea>
+                            <textarea name="summary" rows="5" placeholder="Parlez brièvement de vous..."><?= htmlspecialchars($profile['summary'] ?? '') ?></textarea>
                             <?php if (($_SESSION['plan_level'] ?? 1) >= 2): ?>
                                 <div class="ai-btns">
                                     <button type="button" class="ai-btn" onclick="aiEnhance('summary', 'summary')">✨ Améliorer</button>
                                     <button type="button" class="ai-btn" style="background:#475569" onclick="aiEnhance('summary', 'tone_switch')">🎭 Changer le ton</button>
                                 </div>
                             <?php endif; ?>
+                        </div>
+
+                        <div class="fgroup">
+                            <label>Loisirs & Intérêts (Optionnel)</label>
+                            <textarea name="hobbies" rows="3" placeholder="Voyages, Sport, Lecture..."><?= htmlspecialchars($profile['hobbies'] ?? '') ?></textarea>
+                            <small>Séparez vos loisirs par des virgules ou mettez-les sous forme de liste.</small>
                         </div>
 
                         <div class="form-grid-2">
@@ -157,6 +163,14 @@ window.fetch = async function(resource, config) {
                             <div class="fgroup">
                                 <label>URL GitHub</label>
                                 <input type="url" name="github" placeholder="https://github.com/..." value="<?= htmlspecialchars($profile['github'] ?? '') ?>">
+                            </div>
+                            <div class="fgroup">
+                                <label>URL Instagram</label>
+                                <input type="url" name="instagram" placeholder="https://instagram.com/..." value="<?= htmlspecialchars($profile['instagram'] ?? '') ?>">
+                            </div>
+                            <div class="fgroup">
+                                <label>URL Twitter / X</label>
+                                <input type="url" name="twitter" placeholder="https://twitter.com/..." value="<?= htmlspecialchars($profile['twitter'] ?? '') ?>">
                             </div>
                         </div>
 

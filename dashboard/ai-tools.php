@@ -29,7 +29,9 @@ $letters = db()->fetchAll("SELECT * FROM cover_letters WHERE user_id = ? ORDER B
         .ai-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; }
         .ai-card textarea { width: 100%; min-height: 200px; background: rgba(0,0,0,0.25); border: 1px solid var(--border); color: white; padding: 1.25rem; border-radius: 10px; font-family: inherit; resize: vertical; margin-bottom: 1.5rem; transition: 0.3s; }
         .ai-card textarea:focus { border-color: var(--primary); outline: none; background: rgba(0,0,0,0.4); }
-        .ai-result-box { background: #0f172a; border-left: 4px solid var(--primary); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; white-space: pre-wrap; display: none; max-height: 500px; overflow-y: auto; color: #e2e8f0; font-size: 0.95rem; line-height: 1.7; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); }
+        .ai-result-box { background: #0f172a; border-left: 4px solid var(--primary); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; white-space: pre-wrap; display: none; max-height: 500px; overflow-y: auto; color: #e2e8f0; font-size: 0.95rem; line-height: 1.7; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); position: relative; }
+        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; transition: 0.3s; }
+        .copy-btn:hover { background: var(--primary); }
         .loader { display: none; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid var(--primary); border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: 0 auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
@@ -60,6 +62,7 @@ $letters = db()->fetchAll("SELECT * FROM cover_letters WHERE user_id = ? ORDER B
             <div class="tab" onclick="switchTab(this, 'analysis')">Analyse d'Offre</div>
             <div class="tab" onclick="switchTab(this, 'ats-opt')">Optimiseur ATS <span style="font-size:0.7rem; background:var(--primary); color:white; padding:1px 5px; border-radius:4px; margin-left:5px;">Pro</span></div>
             <div class="tab" onclick="switchTab(this, 'translate')">Traduction <span style="font-size:0.7rem; background:var(--primary); color:white; padding:1px 5px; border-radius:4px; margin-left:5px;">Pro</span></div>
+            <div class="tab" onclick="switchTab(this, 'tone-switch')">Changer le Ton</div>
             <div class="tab" onclick="switchTab(this, 'interview')">Simulateur d'Entretien</div>
             <div class="tab" onclick="switchTab(this, 'history')">Mes Lettres</div>
         </div>
@@ -162,6 +165,38 @@ $letters = db()->fetchAll("SELECT * FROM cover_letters WHERE user_id = ? ORDER B
             <?php endif; ?>
         </div>
 
+        <!-- Panel: Tone Switcher -->
+        <div id="tone-switch" class="tool-panel">
+            <div class="ai-grid">
+                <div class="ai-card">
+                    <h3>🎭 Changeur de Ton</h3>
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1rem;">Réécrivez votre texte pour qu'il s'adapte parfaitement à l'environnement visé (Startup, Exécutif, Académique).</p>
+                    <textarea id="textToTone" placeholder="Collez le texte à transformer (ex: résumé, expérience)..."></textarea>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display:block; margin-bottom:0.5rem; font-size:0.9rem;">Choisir le nouveau ton :</label>
+                        <select id="tonType" class="form-control" style="background:#0f172a; color:white; border:1px solid var(--border); padding:0.5rem; border-radius:8px; width:100%;">
+                            <option value="Startup/Modern">Moderne / Dynamique (Startup)</option>
+                            <option value="Executive/Formal">Formel / Exécutif (Grande Entreprise)</option>
+                            <option value="Academic">Académique / Littéraire</option>
+                        </select>
+                    </div>
+                    <button class="btn-ai" id="btnGenTone" onclick="runAi('tone_switch', 'textToTone', 'resTone', 'btnGenTone')">
+                        <span>Transformer le ton</span>
+                        <div class="loader" id="loaderTone"></div>
+                    </button>
+                    <div id="resTone" class="ai-result-box"></div>
+                </div>
+                <div class="ai-card">
+                    <h3>💡 Quand l'utiliser ?</h3>
+                    <ul style="font-size:0.9rem; line-height:1.7;">
+                        <li><strong>Moderne</strong> : Idéal pour les entreprises de la Tech ou du Design.</li>
+                        <li><strong>Exécutif</strong> : Parfait pour les postes à hautes responsabilités ou en finance.</li>
+                        <li><strong>Académique</strong> : Recommandé pour la recherche, l'enseignement ou l'administration.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!-- Panel: Interview -->
         <div id="interview" class="tool-panel">
             <div class="ai-card" style="max-width: 800px; margin: 0 auto;">
@@ -210,15 +245,20 @@ $letters = db()->fetchAll("SELECT * FROM cover_letters WHERE user_id = ? ORDER B
             document.getElementById(tabId).classList.add('active');
         }
 
-        async function runAi(type, inputId, resultId, btnId, targetLang = null) {
+        async function runAi(type, inputId, resultId, btnId, extra = null) {
             const btn = document.getElementById(btnId);
             const loader = btn.querySelector('.loader');
             const resBox = document.getElementById(resultId);
             const inputText = inputId ? document.getElementById(inputId).value : "Mon profil complet";
 
             if (inputId && !inputText.trim()) {
-                alert("Veuillez entrer une description de poste.");
+                alert("Veuillez entrer du texte ou une description.");
                 return;
+            }
+
+            // For Tone Switcher, extra is the tonType from the select
+            if (type === 'tone_switch') {
+                extra = document.getElementById('tonType').value;
             }
 
             btn.disabled = true;
@@ -230,7 +270,12 @@ $letters = db()->fetchAll("SELECT * FROM cover_letters WHERE user_id = ? ORDER B
                 const r = await fetch('<?= APP_URL ?>/api/ai-enhance.php', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({type, text: inputText, target_lang: targetLang})
+                    body: JSON.stringify({
+                        type, 
+                        text: inputText, 
+                        target_lang: type === 'translate' ? extra : null,
+                        tone: type === 'tone_switch' ? extra : null
+                    })
                 });
                 const data = await r.json();
                 
@@ -239,7 +284,7 @@ $letters = db()->fetchAll("SELECT * FROM cover_letters WHERE user_id = ? ORDER B
                 btn.querySelector('span').style.display = "inline";
 
                 if (data.success) {
-                    resBox.textContent = data.enhanced;
+                    resBox.innerHTML = `<button class="copy-btn" onclick="copyText(this)">Copier</button><div class="res-content">${data.enhanced}</div>`;
                     resBox.style.display = "block";
                     lastGeneratedText = data.enhanced;
                     if (type === 'cover_letter') document.getElementById('btnSaveLetter').style.display = "block";
@@ -252,6 +297,15 @@ $letters = db()->fetchAll("SELECT * FROM cover_letters WHERE user_id = ? ORDER B
                 loader.style.display = "none";
                 btn.querySelector('span').style.display = "inline";
             }
+        }
+
+        function copyText(btn) {
+            const text = btn.nextElementSibling.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const oldText = btn.textContent;
+                btn.textContent = "Copié !";
+                setTimeout(() => btn.textContent = oldText, 2000);
+            });
         }
 
         async function saveLetter() {

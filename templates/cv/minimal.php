@@ -88,6 +88,8 @@ body { font-family: 'Georgia', serif; color: #222; background: #fff; font-size: 
                 <?php if ($website): ?><span><a href="<?= $website ?>"><?= parse_url($website, PHP_URL_HOST) ?: $website ?></a></span><?php endif; ?>
                 <?php if ($linkedin): ?><span><a href="<?= $linkedin ?>">LinkedIn</a></span><?php endif; ?>
                 <?php if ($github): ?><span><a href="<?= $github ?>">GitHub</a></span><?php endif; ?>
+                <?php if (!empty($profile['instagram'])): ?><span><a href="<?= htmlspecialchars($profile['instagram']) ?>">Instagram</a></span><?php endif; ?>
+                <?php if (!empty($profile['twitter'])): ?><span><a href="<?= htmlspecialchars($profile['twitter']) ?>">Twitter</a></span><?php endif; ?>
             </div>
         </div>
     </div>
@@ -205,6 +207,14 @@ body { font-family: 'Georgia', serif; color: #222; background: #fff; font-size: 
         </div>
         <?php endif; ?>
     </div>
+
+    <!-- Hobbies -->
+    <?php if (!empty($profile['hobbies'])): ?>
+    <div class="cv-section" style="margin-top: 20px;">
+        <div class="cv-section-title">Centres d'intérêt</div>
+        <div class="cv-summary"><?= $profile['hobbies'] ?></div>
+    </div>
+    <?php endif; ?>
 
 </div>
 </body>

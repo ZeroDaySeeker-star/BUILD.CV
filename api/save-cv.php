@@ -39,7 +39,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     }
 }
 
-$fields = ['full_name','title','email','phone','location','website','linkedin','github','summary'];
+$fields = ['full_name','title','email','phone','location','website','linkedin','github','instagram', 'twitter', 'summary', 'hobbies'];
 $data = [];
 foreach ($fields as $f) {
     $val = trim($_POST[$f] ?? '');
